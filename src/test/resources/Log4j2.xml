@@ -4,8 +4,8 @@
         <Property name="basePath">./logs</Property>
     </Properties>
     <Appenders>
-        <RollingFile name="File" fileName="${basePath}/RztAI_UI_Auto.log"
-                     filePattern="${basePath}/RztAI_UI_Auto-%d{yyyy-MM-dd}.log">
+        <RollingFile name="File" fileName="${basePath}/Plivo.log"
+                     filePattern="${basePath}/Plivo-%d{yyyy-MM-dd}.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %c{1} - %msg%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>

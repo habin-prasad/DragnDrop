@@ -43,7 +43,5 @@ public class ReadProperties {
     }
 
 
-    //    private static ReadProperties readProperties = new ReadProperties("/application.properties");
-//    public static final String baseUrl = readProperties.getValue("test");
 
 }

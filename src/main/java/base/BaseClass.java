@@ -16,8 +16,10 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class BaseClass {
     public static final int WAIT_TIME_IN_SECS = 5;
+    private static final String baseUrl = "http://quickfuseapps.com/";
     public WebDriver driver;
-    String baseUrl = "http://quickfuseapps.com/";
+    public MouseActivity mouseActivity;
+    public WaitEx waitEx;
 
     public void setUp() {
         this.driver = selectBrowser();
@@ -27,11 +29,10 @@ public abstract class BaseClass {
     }
 
     private WebDriver selectBrowser() {
-//        String webDriver = readProperties.getValue("browser");
         String webDriver = "chrome";
         if (webDriver.equalsIgnoreCase("chrome")) {
-//            String directoryName = System.getProperty("user.dir") + "/drivers/";
-//            System.setProperty("webdriver.chrome.driver", directoryName + "chromedriver");
+            String directoryName = System.getProperty("user.dir") + "/drivers/";
+            System.setProperty("webdriver.chrome.driver", directoryName + "chromedriver");
             driver = new ChromeDriver();
         } else if (webDriver.equalsIgnoreCase("safari"))
             driver = new SafariDriver();
@@ -42,7 +43,7 @@ public abstract class BaseClass {
     }
 
     private WebDriver maximizeWindow() {
-        this.driver.manage().window().maximize();
+        this.driver.manage().window().fullscreen();
         return this.driver;
     }
 
