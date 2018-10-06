@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Plivo Drag n Drop" verbose="1">
-
+    <test name="Create an App" verbose="1">
+        <groups>
+            <define name="Canvas"/>
+            <run>
+                <include name="create"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="testPages.PlumFuseCanvasTest"/>
+        </classes>
+    </test>
 </suite>

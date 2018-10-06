@@ -1,5 +1,9 @@
 package testPages;
 
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import pages.PlumFuseCanvas;
+
 /**
  * @author: habin,
  * created on: 06/10/18 : 9:37 PM
@@ -8,4 +12,16 @@ package testPages;
 
 
 public class PlumFuseCanvasTest {
+    private PlumFuseCanvas plumFuseCanvas;
+
+    @BeforeClass(alwaysRun = true)
+    public void setUp() {
+        plumFuseCanvas = new PlumFuseCanvas();
+
+    }
+
+    @Test(groups = "create")
+    public void createAnApp() {
+        plumFuseCanvas.createAnApp();
+    }
 }

@@ -41,4 +41,9 @@ public class ReadProperties {
     public int getInt(final String key) {
         return parseInt(getValue(key));
     }
+
+
+    //    private static ReadProperties readProperties = new ReadProperties("/application.properties");
+//    public static final String baseUrl = readProperties.getValue("test");
+
 }
