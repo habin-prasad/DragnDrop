@@ -35,4 +35,4 @@ Two ways to execute the project:
 
 ## Authors
 
-* **Billie Thompson** - *LinkedIn* - [Habin Prasad](https://www.linkedin.com/in/habin-prasad-aa253b84).
+**Habin Prasad** - *[LinkedIn](https://www.linkedin.com/in/habin-prasad-aa253b84)*.

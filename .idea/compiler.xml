@@ -9,5 +9,8 @@
         <module name="DragnDrop" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="DragnDrop" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
