@@ -14,6 +14,7 @@
         <selenium.version>3.14.0</selenium.version>
         <testng.version>6.14.3</testng.version>
         <surefire.version>2.19.1</surefire.version>
+        <webdriverManafer.version>3.0.0</webdriverManafer.version>
     </properties>
 
     <build>
@@ -108,6 +109,14 @@
             <artifactId>log4j-core</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+        <!--This dependency is to use webdrivermanager-->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdriverManafer.version}</version>
+        </dependency>
+
+
     </dependencies>
 
 

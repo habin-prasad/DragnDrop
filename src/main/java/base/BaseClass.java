@@ -1,5 +1,6 @@
 package base;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -36,8 +37,10 @@ public abstract class BaseClass {
     private WebDriver selectBrowser() {
         String webDriver = "chrome";
         if (webDriver.equalsIgnoreCase("chrome")) {
-            String directoryName = System.getProperty("user.dir") + "/drivers/";
-            System.setProperty("webdriver.chrome.driver", directoryName + "chromedriver");
+//            String directoryName = System.getProperty("user.dir") + "/drivers/";
+//            System.setProperty("webdriver.chrome.driver", directoryName + "chromedriver");
+            WebDriverManager.chromedriver().setup();
+
             driver = new ChromeDriver();
         } else if (webDriver.equalsIgnoreCase("safari"))
             driver = new SafariDriver();

@@ -1,5 +1,6 @@
 package testPages;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.PlumFuseCanvas;
@@ -23,5 +24,10 @@ public class PlumFuseCanvasTest {
     @Test(groups = "create")
     public void createAnApp() {
         plumFuseCanvas.createAnApp();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void tearDown() {
+        plumFuseCanvas.tearDown();
     }
 }
