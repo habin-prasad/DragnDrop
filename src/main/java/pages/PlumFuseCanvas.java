@@ -18,8 +18,8 @@ import java.util.List;
 
 
 public class PlumFuseCanvas extends BaseClass {
-    final String phoneNo = "1234567890";
-    final String email = "abc@gmail.com";
+    private final String phoneNo = "1234567890";
+    private final String email = "abc@gmail.com";
 
     @FindBy(id = "link-create")
     private WebElement createAppButton;
@@ -33,9 +33,8 @@ public class PlumFuseCanvas extends BaseClass {
     @FindBy(xpath = "//form[@class='unsubmittable']//input[@name='name']")
     private WebElement inputPageName;
 
-    @FindBy(xpath = "//form[contains(@class,'unsubmittable')]//input[contains(@name,'name')]" +
-            "/parent::*/parent::*/parent::*/parent::*//button[contains(text(),'Create')]")
-    private WebElement createPageButton;
+    @FindBy(xpath = "//button[contains(.,'Create')]")
+    private List<WebElement> createPageButtons;
 
     @FindBy(xpath = "//div[@id='module-1']//img")
     private WebElement loaderIcon;
@@ -128,34 +127,41 @@ public class PlumFuseCanvas extends BaseClass {
     }
 
     private void dragNdrop(WebElement source, WebElement target) {
+        log.info("Waiting for elements to available with DOM");
         waiter();
         mouseActivity.dragAndDrop(source, target);
+        log.info("Drag and Drop operation success");
     }
 
     private void dragNdropBy(WebElement source, int Xaxis, int Yaxis) {
+        log.info("Waiting for elements to available with DOM");
         waiter();
         mouseActivity.dragAndDropBy(source, Xaxis, Yaxis);
+        log.info("Drag and Drop By operation success");
     }
 
     private void navigateToCanvas() {
         clickOn(createAppButton);
+        log.info("Successfully navigated to Canvas Page");
     }
 
     private void addCanvasSheet() {
         WebElement element = waitEx.waitForElementToBeClickable(
                 By.xpath("//button[contains(text(),\"Let's get started!\")]"), 10000);
-        mouseActivity.clickAction(element);
-        mouseActivity.clickAction(newPagebutton);
+        clickOn(element);
+        clickOn(newPagebutton);
         enterValue(inputPageName, "Test");
-        mouseActivity.clickAction(createPageButton);
+        clickOn(createPageButtons.get(1));
+        log.info("Successfully added new canvas sheet");
     }
 
     private void dragNdropSMSBlock() {
-        mouseActivity.clickAction(messagingButtonLeftPanel);
+        clickOn(messagingButtonLeftPanel);
         dragNdropBy(smsSendButton, 650, 30);
         dragNdrop(startNode, smsSendRec);
         enterValue(smsPhoneNumberArea, phoneNo);
         enterValue(smsMessageText.get(0), "Hello World");
+        log.info("Successfully dropped SMS block to canvas");
     }
 
     private void dragNdropEmailBlock() {
@@ -169,6 +175,7 @@ public class PlumFuseCanvas extends BaseClass {
         enterValue(emailToText, "xyz@gmail.com");
         enterValue(emailSubjectText, "SMS not sent");
         enterValue(emailMessageArea.get(0), "SMS to phone no " + phoneNo + " not sent");
+        log.info("Successfully dropped Email block to canvas");
     }
 
     private void dragNdropHangUpBlocks() {
@@ -179,6 +186,7 @@ public class PlumFuseCanvas extends BaseClass {
         dragNdrop(emailNodes.get(0), hangup2Rec);
         dragNdropBy(hangupButton, 1250, 470);
         dragNdrop(emailNodes.get(1), hangup3Rec);
+        log.info("Successfully dropped Hang Up block to canvas");
     }
 
     public void createAnApp() {
@@ -189,6 +197,7 @@ public class PlumFuseCanvas extends BaseClass {
         dragNdropSMSBlock();
         dragNdropEmailBlock();
         dragNdropHangUpBlocks();
+        log.info("Successfully completed the execution");
     }
 
     private void reloadPage(String expectedTitle) {
@@ -198,7 +207,7 @@ public class PlumFuseCanvas extends BaseClass {
     }
 
     private void enterValue(WebElement element, String data) {
-        mouseActivity.clickAction(element);
+        clickOn(element);
         element.sendKeys(data);
     }
 }

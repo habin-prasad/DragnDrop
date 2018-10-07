@@ -2,15 +2,11 @@ package base;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.stream.Collectors;
-
 
 
 /**
@@ -21,54 +17,37 @@ import java.util.stream.Collectors;
 
 
 public class MouseActivity {
+    private static final Logger log = LogManager.getLogger(WaitEx.class.getName());
     private WebDriver driver;
     private Actions actions;
-    protected static final Logger log = LogManager.getLogger(WaitEx.class.getName());
-    String dragndrop_js = null;
-
 
 
     public MouseActivity(WebDriver driver) {
         this.driver = driver;
         actions = new Actions(driver);
-        try (
-                BufferedReader br =
-                        Files.newBufferedReader(Paths.get("/drag_and_drop_helper.js"))) {
-            dragndrop_js = br
-                    .lines()
-                    .collect(Collectors.joining(" "));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
     }
 
     public void clickAction(WebElement element) {
-        actions.moveToElement(element).click().perform();
+        if (element.isDisplayed())
+            actions.moveToElement(element).click().perform();
+        else
+            log.error("Source Element was not displayed to click");
     }
 
     public void dragAndDropBy(WebElement sourceElement, int X_axis, int Y_axis) {
         try {
             if (sourceElement.isDisplayed()) {
                 actions.dragAndDropBy(sourceElement, X_axis, Y_axis).build().perform();
-//                actions.moveToElement(sourceElement).clickAndHold().moveByOffset(-1, -1)
-//                        .moveToElement(destinationElement, X_axis, Y_axis).release().build().perform();
-
             } else {
-                System.out.println("Source Element was not displayed to drag");
+                log.error("Source Element was not displayed to drag");
             }
         } catch (StaleElementReferenceException e) {
-            System.out.println("Element with " + sourceElement + "is not attached to the page document " + e.getStackTrace());
+            log.error("Element with " + sourceElement + "is not attached to the page document " + e.getMessage());
         } catch (NoSuchElementException e) {
-            System.out.println("Element " + sourceElement + " was not found in DOM " + e.getStackTrace());
+            log.error("Element " + sourceElement + " was not found in DOM " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Error occurred while performing drag and drop operation " + e.getStackTrace());
+            log.error("Error occurred while performing drag and drop operation " + e.getMessage());
         }
-    }
-
-    public void dragDrop(WebDriver driver, String src, String dst) {
-        String js = String.format("$('%s').simulateDragDrop({ dropTarget: '%s'});", src, dst);
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript(dragndrop_js + js);
     }
 
     public void dragAndDrop(WebElement sourceElement, WebElement destinationElement) {
@@ -80,23 +59,23 @@ public class MouseActivity {
                         Actions action = new Actions(driver);
                         action.dragAndDrop(sourceElement, destinationElement).build().perform();
                     } else {
-                        System.out.println("Destination was not displayed to drag");
+                        log.error("Destination was not displayed to drag");
                     }
                 } else {
-                    System.out.println("Source was not displayed to drag");
+                    log.error("Source was not displayed to drag");
                 }
             } catch (StaleElementReferenceException e) {
-                System.out.println("Element with " + sourceElement + "or" + destinationElement + "is not attached to the page document "
-                        + e.getStackTrace());
+                log.error("Element with " + sourceElement + "or" + destinationElement + "is not attached to the page document "
+                        + e.getMessage());
                 count++;
             } catch (NoSuchElementException e) {
-                System.out.println("Element " + sourceElement + "or" + destinationElement + " was not found in DOM " + e.getStackTrace());
+                log.error("Element " + sourceElement + "or" + destinationElement + " was not found in DOM " + e.getMessage());
                 count++;
             } catch (Exception e) {
-                System.out.println("Error occurred while performing drag and drop operation " + e.getStackTrace());
+                log.error("Error occurred while performing drag and drop operation " + e.getMessage());
                 count++;
             }
-            count = count + 4;
+            count += 4;
         }
     }
 

@@ -17,14 +17,14 @@ import java.util.concurrent.TimeUnit;
 
 
 public abstract class BaseClass {
-    public static final int WAIT_TIME_IN_SECS = 5;
-    public static final int WAIT_TIME_IN_MILLISECS = 5000;
+    private static final int WAIT_TIME_IN_SECS = 5;
+    private static final int WAIT_TIME_IN_MILLISECS = 5000;
     private static final String baseUrl = "http://quickfuseapps.com/";
     protected static final Logger log = LogManager.getLogger(WaitEx.class.getName());
 
-    public WebDriver driver;
-    public MouseActivity mouseActivity;
-    public WaitEx waitEx;
+    protected WebDriver driver;
+    protected MouseActivity mouseActivity;
+    protected WaitEx waitEx;
 
     public void setUp() {
         this.driver = selectBrowser();
@@ -52,7 +52,7 @@ public abstract class BaseClass {
         return this.driver;
     }
 
-    protected WebDriver implicitDriverWait(int timeInSeconds) {
+    private WebDriver implicitDriverWait(int timeInSeconds) {
         this.driver.manage().timeouts().implicitlyWait(timeInSeconds, TimeUnit.SECONDS);
         return this.driver;
     }
@@ -60,14 +60,6 @@ public abstract class BaseClass {
 
     public void tearDown() {
         driver.quit();
-    }
-
-    public WebDriver getDriver() {
-        return this.driver;
-    }
-
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
     }
 
     public void waiter() {
