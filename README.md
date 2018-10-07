@@ -30,8 +30,8 @@ Please create a folder named log at the base directory of this project else File
 ### Execution
 
 Two ways to execute the project:
-* Command LineNavigate inside the project folder i.e *DragnDrop* and execute **mvn test**.
-* Open your preferred IDE and then right click on testng.xml(inside *DragnDrop* folder) and click on Run.
+* Command Line: Navigate inside the project folder i.e *DragnDrop* and execute **mvn test**.
+* IDE: Open your preferred IDE and then right click on testng.xml(inside *DragnDrop* folder) and click on Run.
 
 ## Authors
 
