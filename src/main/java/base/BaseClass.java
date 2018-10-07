@@ -1,5 +1,7 @@
 package base;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,7 +18,10 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class BaseClass {
     public static final int WAIT_TIME_IN_SECS = 5;
+    public static final int WAIT_TIME_IN_MILLISECS = 5000;
     private static final String baseUrl = "http://quickfuseapps.com/";
+    protected static final Logger log = LogManager.getLogger(WaitEx.class.getName());
+
     public WebDriver driver;
     public MouseActivity mouseActivity;
     public WaitEx waitEx;
@@ -63,6 +68,14 @@ public abstract class BaseClass {
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
+    }
+
+    public void waiter() {
+        try {
+            Thread.sleep(WAIT_TIME_IN_MILLISECS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
