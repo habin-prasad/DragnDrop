@@ -18,7 +18,7 @@ import java.util.List;
 
 
 public class PlumFuseCanvas extends BaseClass {
-    final String phoneme = "1234567890";
+    final String phoneNo = "1234567890";
     final String email = "abc@gmail.com";
 
     @FindBy(id = "link-create")
@@ -103,6 +103,19 @@ public class PlumFuseCanvas extends BaseClass {
     @FindBy(xpath = "//li[contains(.,'Hang Up or Exit')]")
     private WebElement hangupButton;
 
+    @FindBy(xpath = "//div[@id='module-4']//div[starts-with(@id,'rec-')]")
+    private WebElement hangup1Rec;
+
+    @FindBy(xpath = "//div[@id='module-3']//div[starts-with(@id,'node-')]")
+    private List<WebElement> emailNodes;
+
+    @FindBy(xpath = "//div[@id='module-5']//div[starts-with(@id,'rec-')]")
+    private WebElement hangup2Rec;
+
+    @FindBy(xpath = "//div[@id='module-6']//div[starts-with(@id,'rec-')]")
+    private WebElement hangup3Rec;
+
+
 
     public PlumFuseCanvas() {
         setUp();
@@ -115,33 +128,39 @@ public class PlumFuseCanvas extends BaseClass {
     }
 
     private void dragNdrop(WebElement source, WebElement target) {
+        waiter();
         mouseActivity.dragAndDrop(source, target);
     }
 
     private void dragNdropBy(WebElement source, int Xaxis, int Yaxis) {
+        waiter();
         mouseActivity.dragAndDropBy(source, Xaxis, Yaxis);
     }
 
-    public void createAnApp() {
-        mouseActivity = new MouseActivity(driver);
-        waitEx = new WaitEx(driver);
-        mouseActivity.clickAction(createAppButton);
+    private void navigateToCanvas() {
+        clickOn(createAppButton);
+    }
+
+    private void addCanvasSheet() {
         WebElement element = waitEx.waitForElementToBeClickable(
                 By.xpath("//button[contains(text(),\"Let's get started!\")]"), 10000);
         mouseActivity.clickAction(element);
         mouseActivity.clickAction(newPagebutton);
         enterValue(inputPageName, "Test");
         mouseActivity.clickAction(createPageButton);
+    }
+
+    private void dragNdropSMSBlock() {
         mouseActivity.clickAction(messagingButtonLeftPanel);
-        waiter();
-        mouseActivity.dragAndDrop(smsSendButton, canvasArea);
-        waiter();
-        mouseActivity.dragAndDrop(startNode, smsSendRec);
-        enterValue(smsPhoneNumberArea, phoneme);
+        dragNdropBy(smsSendButton, 650, 30);
+        dragNdrop(startNode, smsSendRec);
+        enterValue(smsPhoneNumberArea, phoneNo);
         enterValue(smsMessageText.get(0), "Hello World");
-        mouseActivity.dragAndDropBy(emailSendButton, 1000, 400);
-        waiter();
-        mouseActivity.dragAndDrop(smsNodes.get(1), emailSendRec);
+    }
+
+    private void dragNdropEmailBlock() {
+        dragNdropBy(emailSendButton, 900, 200);
+        dragNdrop(smsNodes.get(1), emailSendRec);
         enterValue(emailSMTPText, "smtp.gmail.com");
         enterValue(emailPortText, "465");
         enterValue(emailUsername, email);
@@ -149,13 +168,27 @@ public class PlumFuseCanvas extends BaseClass {
         enterValue(emailFromText, email);
         enterValue(emailToText, "xyz@gmail.com");
         enterValue(emailSubjectText, "SMS not sent");
-        enterValue(emailMessageArea.get(0), "SMS to phone no " + phoneme + " not sent");
+        enterValue(emailMessageArea.get(0), "SMS to phone no " + phoneNo + " not sent");
+    }
+
+    private void dragNdropHangUpBlocks() {
         clickOn(basicButtonLeftPanel);
-        dragNdropBy(hangupButton, 600, 300);
+        dragNdropBy(hangupButton, 400, 200);
+        dragNdrop(smsNodes.get(0), hangup1Rec);
+        dragNdropBy(hangupButton, 700, 470);
+        dragNdrop(emailNodes.get(0), hangup2Rec);
+        dragNdropBy(hangupButton, 1250, 470);
+        dragNdrop(emailNodes.get(1), hangup3Rec);
+    }
 
-
-
-
+    public void createAnApp() {
+        mouseActivity = new MouseActivity(driver);
+        waitEx = new WaitEx(driver);
+        navigateToCanvas();
+        addCanvasSheet();
+        dragNdropSMSBlock();
+        dragNdropEmailBlock();
+        dragNdropHangUpBlocks();
     }
 
     private void reloadPage(String expectedTitle) {
